@@ -2,7 +2,7 @@ package astar
 
 import "container/heap"
 
-func Path2(from, to Pather, limit int, lenmax int) (path []Pather, count int) {
+func Path2(from, to Pather, trylimit int, lenmax int) (path []Pather, trycount int) {
 	nm := nodeMap{}
 	nq := &priorityQueue{}
 	heap.Init(nq)
@@ -12,15 +12,15 @@ func Path2(from, to Pather, limit int, lenmax int) (path []Pather, count int) {
 	for {
 		if nq.Len() == 0 {
 			// There's no path, return found false.
-			return nil, count
+			return nil, trycount
 		}
 		current := heap.Pop(nq).(*node)
 		current.open = false
 		current.closed = true
 		for _, neighbor := range current.pather.PathNeighbors() {
-			count++
-			if count > limit {
-				return nil, count
+			trycount++
+			if trycount > trylimit {
+				return nil, trycount
 			}
 			cost := current.cost + current.pather.PathNeighborCost(neighbor)
 			neighborNode := nm.get(neighbor)
@@ -33,7 +33,7 @@ func Path2(from, to Pather, limit int, lenmax int) (path []Pather, count int) {
 					p = append(p, curr.pather)
 					curr = curr.parent
 				}
-				return p, count
+				return p, trycount
 			}
 			if cost < neighborNode.cost {
 				if neighborNode.open {
