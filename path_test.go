@@ -33,7 +33,7 @@ func testPath(worldInput string, t *testing.T, expectedDist float64) {
 		t.Fatal("Could not find a path")
 	}
 	if found && dist != expectedDist {
-		t.Fatalf("Expected dist to be %v but got %v", expectedDist, dist)
+		t.Fatal("Expected dist to be %v but got %v", expectedDist, dist)
 	}
 }
 
